@@ -1,0 +1,117 @@
+<html>
+	<style type="text/css">
+		div{
+			width:500px;
+			height:500px;
+		}
+		canvas {
+		}
+	</style>
+	<head><title>draw</title></head>
+	<body>
+		<div>
+<canvas id="tutorial" width="1800px" height="800px"></canvas>
+</div>
+ <script src="http://code.jquery.com/jquery-latest.js"></script>
+  
+  <script>
+  </script>
+<script type="text/javascript">
+	var A=25;
+	var B=43;
+	var C=50;
+function wheel(event) { 
+        var delta = 0;
+        if (!event) /* For IE. */
+                event = window.event;
+        if (event.wheelDelta) { /* IE/Opera. */
+                delta = event.wheelDelta/120;
+                /** In Opera 9, delta differs in sign as compared to IE.
+                 */
+                if (window.opera)
+                        delta = -delta;
+        } else if (event.detail) { /** Mozilla case. */
+                /** In Mozilla, sign of delta is different than in IE.
+                 * Also, delta is multiple of 3.
+                 */
+                delta = -event.detail/3;
+        }
+		
+	if(delta > 0){
+		A += 5;
+		B += 8.6;
+		C += 10;
+	}else{
+		A -= 5;
+		B -= 8.6;
+		C -= 10;
+	}
+	doDraw();
+        if (event.preventDefault)
+                event.preventDefault();
+	event.returnValue = false;
+}
+  $(document).ready(function(){
+    
+		  $(window).bind("DOMMouseScroll",wheel);
+		  window.onmousewheel = document.onmousewheel = wheel;
+
+  });
+function draw(x,y,color,gridcolor){
+  var canvas = document.getElementById('tutorial');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle=color;
+    ctx.strokeStyle="#000000";
+    x *= B * 2;
+    if(y & 1){
+	   x += B;
+    }
+    y *= A+C;
+ctx.beginPath();
+ctx.moveTo(x+0,y+A + C);
+ctx.lineTo(x+0,y+A);
+ctx.lineTo(x+B,y+0);
+ctx.lineTo(x+B*2,y+A);
+ctx.lineTo(x+B*2,y+A+C);
+ctx.lineTo(x+B,y+(2*C));
+ctx.lineTo(x+0,y+A+C);
+ctx.fill();
+ctx.beginPath();
+ctx.moveTo(x+0,y+A + C);
+ctx.lineTo(x+0,y+A);
+ctx.lineTo(x+B,y+0);
+ctx.lineTo(x+B*2,y+A);
+ctx.lineTo(x+B*2,y+A+C);
+ctx.lineTo(x+B,y+(2*C));
+ctx.lineTo(x+0,y+A+C);
+ctx.stroke();
+    
+  }
+}
+function doDraw(){
+	clear();
+	draw(0,0,"#ff00ff");
+	draw(1,0,"#ff0000");
+	draw(2,0,"#00ff00");
+	draw(3,0,"#0000ff");
+	draw(0,1,"#ff00ff");
+	draw(1,1,"#ff0000");
+	draw(2,1,"#00ff00");
+	draw(3,1,"#0000ff");
+	draw(0,2,"#ff00ff");
+	draw(1,2,"#ff0000");
+	draw(2,2,"#00ff00");
+	draw(3,2,"#0000ff");
+}
+function clear(){
+  var canvas = document.getElementById('tutorial');
+  if (canvas.getContext){
+    var ctx = canvas.getContext('2d');
+	ctx.clearRect(0,0, 1800,800);
+  }
+}
+doDraw();
+	</script>
+</body>
+</html>
